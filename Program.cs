@@ -1,4 +1,8 @@
 using MovieAppApi.Src.Core.Services.Environment;
+using MovieAppApi.Src.Core.Mappers.SearchMovies;
+using MovieAppApi.Src.Core.Services.FetchMovies;
+using MovieAppApi.Src.Core.Services.Movie;
+using MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
 
 namespace MovieAppApi;
 
@@ -10,6 +14,11 @@ public class Program
 
         // Add services to the container.
         builder.Services.AddSingleton<IEnvService>(new EnvService());
+        builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
+
+        builder.Services.AddTransient<HttpClient>();
+        builder.Services.AddTransient<IFetchMoviesService, TmdbService>();
+        builder.Services.AddTransient<IMovieService, MovieService>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
