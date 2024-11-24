@@ -1,5 +1,7 @@
+using System.Net;
 using MovieAppApi.Src.Core.Exceptions;
 using MovieAppApi.Src.Core.Services.Environment;
+using MovieAppApi.Src.Models.Movie;
 using MovieAppApi.Src.Models.SearchMovies;
 
 namespace MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
@@ -30,6 +32,29 @@ public class TmdbService : IFetchMoviesService
     if (content == null)
     {
       throw new SearchMoviesNullException("Tmdb search movies response is null");
+    }
+
+    return content.ToModel();
+  }
+
+  public async Task<MovieModel> GetMovieAsync(int movieId, string language)
+  {
+    var url = $"{_baseUrl}/movie/{movieId}?api_key={_apiKey}&language={language}";
+    var response = await _httpClient.GetAsync(url);
+    if (response.StatusCode == HttpStatusCode.NotFound)
+    {
+      throw new MovieNotFoundException(movieId);
+    }
+
+    if (!response.IsSuccessStatusCode)
+    {
+      throw new HttpRequestException("Tmdb get movie request failed");
+    }
+
+    var content = await response.Content.ReadFromJsonAsync<TmdbMovieDto>();
+    if (content == null)
+    {
+      throw new GetMovieNullException("Tmdb get movie by id response is null");
     }
 
     return content.ToModel();

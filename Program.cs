@@ -4,6 +4,7 @@ using MovieAppApi.Src.Core.Services.FetchMovies;
 using MovieAppApi.Src.Core.Services.Movie;
 using MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
 using MovieAppApi.Src.Core.Middlewares;
+using MovieAppApi.Src.Core.Mappers.GetMovie;
 
 namespace MovieAppApi;
 
@@ -17,6 +18,7 @@ public class Program
         builder.Services.AddSingleton<IEnvService>(new EnvService());
         builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
         builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
+        builder.Services.AddScoped<IGetMovieResponseMapper, GetMovieResponseMapper>();
 
         builder.Services.AddTransient<HttpClient>();
         builder.Services.AddTransient<IFetchMoviesService, TmdbService>();

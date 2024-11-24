@@ -7,7 +7,7 @@ namespace MovieAppApi.Src.Core.Mappers.SearchMovies;
 public class SearchMoviesResponseMapper : ISearchMoviesResponseMapper
 {
 
-  public SearchMoviesResponseDto FromModelToDto(SearchMoviesResultModel model)
+  public SearchMoviesResponseDto ToDto(SearchMoviesResultModel model)
   {
     return new SearchMoviesResponseDto
     {

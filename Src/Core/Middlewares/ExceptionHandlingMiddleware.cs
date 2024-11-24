@@ -29,7 +29,21 @@ public class ExceptionHandlingMiddleware
 
   private Task HandleExceptionAsync(HttpContext context, Exception exception)
   {
-    var responseDev = new
+    var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
+    if (isDevelopment)
+    {
+      return WriteDevelopmentResponse(context, exception);
+    }
+    else
+    {
+      return WriteProductionResponse(context);
+    }
+  }
+
+  private Task WriteDevelopmentResponse(HttpContext context, Exception exception)
+  {
+    var payload = new
     {
       StatusCode = (int)HttpStatusCode.InternalServerError,
       Message = "An unexpected error occurred.",
@@ -37,21 +51,17 @@ public class ExceptionHandlingMiddleware
       Trace = exception.StackTrace?.Split(Environment.NewLine)
     };
 
-    var response = new
-    {
-      StatusCode = (int)HttpStatusCode.InternalServerError,
-      Message = "An unexpected error occurred. Please try again later.",
-    };
-
-    var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
-
-    var payload = isDevelopment ?
-      JsonSerializer.Serialize(responseDev) :
-      JsonSerializer.Serialize(response);
-
     context.Response.ContentType = "application/json";
     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-    return context.Response.WriteAsync(payload);
+    return context.Response.WriteAsync(JsonSerializer.Serialize(payload));
+  }
+
+  private Task WriteProductionResponse(HttpContext context)
+  {
+    context.Response.ContentType = "text/plain";
+    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+    return context.Response.WriteAsync("An unexpected error occurred. Please try again later.");
   }
 }

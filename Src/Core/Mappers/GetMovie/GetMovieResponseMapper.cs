@@ -1,11 +1,11 @@
 using MovieAppApi.Src.Models.Movie;
 using MovieAppApi.Src.Views.DTO.Movie;
 
-namespace MovieAppApi.Src.Core.Mappers.Movie;
+namespace MovieAppApi.Src.Core.Mappers.GetMovie;
 
-public class MovieMapper : IMovieMapper
+public class GetMovieResponseMapper : IGetMovieResponseMapper
 {
-  public MovieDto FromModelToDto(MovieModel model)
+  public MovieDto ToDto(MovieModel model)
   {
     return new MovieDto
     {
