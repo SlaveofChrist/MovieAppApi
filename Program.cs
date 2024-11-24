@@ -16,6 +16,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddSingleton<IEnvService>(new EnvService());
         builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
+        builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
 
         builder.Services.AddTransient<HttpClient>();
         builder.Services.AddTransient<IFetchMoviesService, TmdbService>();
