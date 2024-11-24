@@ -3,6 +3,7 @@ using MovieAppApi.Src.Core.Mappers.SearchMovies;
 using MovieAppApi.Src.Core.Services.FetchMovies;
 using MovieAppApi.Src.Core.Services.Movie;
 using MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
+using MovieAppApi.Src.Core.Middlewares;
 
 namespace MovieAppApi;
 
@@ -27,7 +28,7 @@ public class Program
 
         var app = builder.Build();
 
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -35,6 +36,8 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+
 
         app.UseHttpsRedirection();
 

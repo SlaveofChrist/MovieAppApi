@@ -1,3 +1,4 @@
+using MovieAppApi.Src.Core.Exceptions;
 using MovieAppApi.Src.Core.Services.Environment;
 using MovieAppApi.Src.Models.SearchMovies;
 
@@ -20,12 +21,15 @@ public class TmdbService : IFetchMoviesService
   {
     var url = $"{_baseUrl}/search/movie?api_key={_apiKey}&query={query.SearchTerm}&language={query.Language}";
     var response = await _httpClient.GetAsync(url);
-    response.EnsureSuccessStatusCode();
+    if (!response.IsSuccessStatusCode)
+    {
+      throw new HttpRequestException("Tmdb search movies request failed");
+    }
 
     var content = await response.Content.ReadFromJsonAsync<TmdbSearchMoviesResultDto>();
     if (content == null)
     {
-      throw new Exception("Tmdb API: /search/movie returned null");
+      throw new SearchMoviesNullException("Tmdb search movies response is null");
     }
 
     return content.ToModel();
