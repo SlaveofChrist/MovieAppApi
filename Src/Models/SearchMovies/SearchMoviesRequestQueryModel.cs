@@ -2,6 +2,12 @@ namespace MovieAppApi.Src.Models.SearchMovies;
 
 public class SearchMoviesRequestQueryModel
 {
-  public required string SearchTerm { get; init; }
-  public required string Language { get; init; }
+  public string SearchTerm { get; }
+  public string Language { get; }
+
+  public SearchMoviesRequestQueryModel(string searchTerm, string language)
+  {
+    SearchTerm = searchTerm;
+    Language = language;
+  }
 }

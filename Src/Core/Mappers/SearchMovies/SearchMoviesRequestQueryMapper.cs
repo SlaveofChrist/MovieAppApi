@@ -7,10 +7,9 @@ public class SearchMoviesRequestQueryMapper : ISearchMoviesRequestQueryMapper
 {
   public SearchMoviesRequestQueryModel ToModel(SearchMoviesRequestQueryDto dto)
   {
-    return new SearchMoviesRequestQueryModel
-    {
-      SearchTerm = dto.search_term,
-      Language = dto.language
-    };
+    return new SearchMoviesRequestQueryModel(
+      searchTerm: dto.search_term,
+      language: dto.language
+    );
   }
 }

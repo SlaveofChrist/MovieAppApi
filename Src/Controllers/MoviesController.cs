@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieAppApi.Src.Core.Mappers.SearchMovies;
+using MovieAppApi.Src.Core.Services.Movie;
 using MovieAppApi.Src.Views.DTO.SearchMovies;
 
 namespace MovieAppApi.Src.Controllers;
@@ -7,9 +8,14 @@ namespace MovieAppApi.Src.Controllers;
 public class MoviesController : BaseController<MoviesController>
 {
   private readonly ISearchMoviesRequestQueryMapper _searchMoviesRequestQueryMapper;
-  public MoviesController(ILogger<MoviesController> logger, ISearchMoviesRequestQueryMapper searchMoviesRequestQueryMapper) : base(logger)
+  private readonly IMovieService _movieService;
+
+  public MoviesController(ILogger<MoviesController> logger,
+   ISearchMoviesRequestQueryMapper searchMoviesRequestQueryMapper,
+   IMovieService movieService) : base(logger)
   {
     _searchMoviesRequestQueryMapper = searchMoviesRequestQueryMapper;
+    _movieService = movieService;
   }
 
   [HttpGet]
@@ -17,6 +23,8 @@ public class MoviesController : BaseController<MoviesController>
   {
     var queryModel = _searchMoviesRequestQueryMapper.ToModel(queryDto);
 
-    return Ok("Ok");
+    var result = await _movieService.SearchMoviesAsync(queryModel);
+
+    return Ok(result);
   }
 }
