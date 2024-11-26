@@ -1,4 +1,3 @@
-// tasks.json
 {
   "version": "2.0.0",
   "tasks": [
@@ -16,9 +15,9 @@
       },
       "args": [
         "watch",
-        "--no-hot-reload",
+        "--no-hot-reload", // This is optional, it avoids to be prompted to restart the app when a file changes
         "run",
-        "${workspaceFolder}/MovieAppApi.csproj",
+        "${workspaceFolder}/${workspaceFolder}.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],

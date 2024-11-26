@@ -17,7 +17,6 @@ public class EnvService : IEnvService
     Vars = new Variables(config);
   }
 
-
   private class Variables : IVariables
   {
     [Required(AllowEmptyStrings = false)]
