@@ -5,5 +5,5 @@ namespace MovieAppApi.Src.Core.Mappers.SearchMovies;
 
 public interface ISearchMoviesRequestQueryMapper
 {
-  public SearchMoviesRequestQueryModel FromDtoToModel(SearchMoviesRequestQueryDto dto);
+  public SearchMoviesRequestQueryModel ToModel(SearchMoviesRequestQueryDto dto);
 }

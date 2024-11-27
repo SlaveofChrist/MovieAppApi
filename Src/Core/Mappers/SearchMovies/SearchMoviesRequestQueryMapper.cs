@@ -5,8 +5,11 @@ namespace MovieAppApi.Src.Core.Mappers.SearchMovies;
 
 public class SearchMoviesRequestQueryMapper : ISearchMoviesRequestQueryMapper
 {
-  public SearchMoviesRequestQueryModel FromDtoToModel(SearchMoviesRequestQueryDto dto)
+  public SearchMoviesRequestQueryModel ToModel(SearchMoviesRequestQueryDto dto)
   {
-    return new SearchMoviesRequestQueryModel(searchTerm: dto.search_term, language: dto.language);
+    return new SearchMoviesRequestQueryModel(
+      searchTerm: dto.search_term,
+      language: dto.language
+    );
   }
 }

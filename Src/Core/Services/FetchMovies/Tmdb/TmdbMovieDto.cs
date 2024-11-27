@@ -5,46 +5,21 @@ namespace MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
 
 public class TmdbMovieDto
 {
-  [Required] public int id { get; }
-  [Required] public string original_language { get; }
-  [Required] public string original_title { get; }
-  [Required] public string overview { get; }
-  [Required] public double popularity { get; }
-  [Required] public DateTime release_date { get; }
-  [Required] public string title { get; }
-  [Required] public double vote_average { get; }
-  [Required] public int vote_count { get; }
-  public string? poster_path { get; }
-
-
-  public TmdbMovieDto(
-    int id,
-    string original_language,
-    string original_title,
-    string overview,
-    double popularity,
-    DateTime release_date,
-    string title,
-    double vote_average,
-    int vote_count,
-    string? poster_path
-  )
-  {
-    this.id = id;
-    this.original_language = original_language;
-    this.original_title = original_title;
-    this.overview = overview;
-    this.popularity = popularity;
-    this.release_date = release_date;
-    this.title = title;
-    this.vote_average = vote_average;
-    this.vote_count = vote_count;
-    this.poster_path = poster_path;
-    Validator.ValidateObject(this, new ValidationContext(this), true);
-  }
+  [Required] public required int id { get; init; }
+  [Required] public required string original_language { get; init; }
+  [Required] public required string original_title { get; init; }
+  [Required] public required string overview { get; init; }
+  [Required] public required double popularity { get; init; }
+  [Required] public required DateTime release_date { get; init; }
+  [Required] public required string title { get; init; }
+  [Required] public required double vote_average { get; init; }
+  [Required] public required int vote_count { get; init; }
+  public string? poster_path { get; init; }
 
   public MovieModel ToModel()
   {
+    Validator.ValidateObject(this, new ValidationContext(this), true);
+
     return new MovieModel(
       id: id,
       originalLanguage: original_language,

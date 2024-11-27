@@ -32,7 +32,7 @@ public class MoviesController : BaseController<MoviesController>
   public async Task<IActionResult> SearchMoviesAsync(
     [FromQuery] SearchMoviesRequestQueryDto queryDto)
   {
-    var queryModel = _searchMoviesRequestQueryMapper.FromDtoToModel(queryDto);
+    var queryModel = _searchMoviesRequestQueryMapper.ToModel(queryDto);
     var result = await _movieService.SearchMoviesAsync(queryModel);
 
     var response = _searchMoviesResponseMapper.ToDto(result);

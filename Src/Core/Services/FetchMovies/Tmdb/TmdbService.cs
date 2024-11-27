@@ -28,13 +28,13 @@ public class TmdbService : IFetchMoviesService
       throw new HttpRequestException("Tmdb search movies request failed");
     }
 
-    var content = await response.Content.ReadFromJsonAsync<TmdbSearchMoviesResultDto>();
-    if (content == null)
+    var dto = await response.Content.ReadFromJsonAsync<TmdbSearchMoviesResultDto>();
+    if (dto == null)
     {
-      throw new SearchMoviesNullException("Tmdb search movies response is null");
+      throw new NullReferenceException("Tmdb search movies response is null");
     }
 
-    return content.ToModel();
+    return dto.ToModel();
   }
 
   public async Task<MovieModel> GetMovieAsync(int movieId, string language)
@@ -51,12 +51,12 @@ public class TmdbService : IFetchMoviesService
       throw new HttpRequestException("Tmdb get movie request failed");
     }
 
-    var content = await response.Content.ReadFromJsonAsync<TmdbMovieDto>();
-    if (content == null)
+    var dto = await response.Content.ReadFromJsonAsync<TmdbMovieDto>();
+    if (dto == null)
     {
-      throw new GetMovieNullException("Tmdb get movie by id response is null");
+      throw new NullReferenceException("Tmdb get movie by id response is null");
     }
 
-    return content.ToModel();
+    return dto.ToModel();
   }
 }

@@ -5,6 +5,8 @@ using MovieAppApi.Src.Core.Services.Movie;
 using MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
 using MovieAppApi.Src.Core.Middlewares;
 using MovieAppApi.Src.Core.Mappers.GetMovie;
+using MovieAppApi.Src.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieAppApi;
 
@@ -15,7 +17,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddSingleton<IEnvService>(new EnvService());
+        var envService = new EnvService();
+        builder.Services.AddSingleton<IEnvService>(envService);
+
+        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={envService.Vars.DatabaseUrl}"));
+
         builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
         builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
         builder.Services.AddScoped<IGetMovieResponseMapper, GetMovieResponseMapper>();
