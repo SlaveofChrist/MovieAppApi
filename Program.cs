@@ -7,6 +7,9 @@ using MovieAppApi.Src.Core.Middlewares;
 using MovieAppApi.Src.Core.Mappers.GetMovie;
 using MovieAppApi.Src.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using MovieAppApi.Src.Core.Repositories.Playlist;
+using MovieAppApi.Src.Core.Services.Playlist;
+using MovieAppApi.Src.Core.Mappers.CreatePlaylist;
 
 namespace MovieAppApi;
 
@@ -22,13 +25,19 @@ public class Program
 
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={envService.Vars.DatabaseUrl}"));
 
+        builder.Services.AddTransient<HttpClient>();
+
+        builder.Services.AddScoped<IFetchMoviesService, TmdbService>();
+
         builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
         builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
         builder.Services.AddScoped<IGetMovieResponseMapper, GetMovieResponseMapper>();
+        builder.Services.AddScoped<IMovieService, MovieService>();
 
-        builder.Services.AddTransient<HttpClient>();
-        builder.Services.AddTransient<IFetchMoviesService, TmdbService>();
-        builder.Services.AddTransient<IMovieService, MovieService>();
+        builder.Services.AddScoped<ICreatePlaylistRequestBodyMapper, CreatePlaylistRequestBodyMapper>();
+        builder.Services.AddScoped<ICreatePlaylistResponseMapper, CreatePlaylistResponseMapper>();
+        builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+        builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

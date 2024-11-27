@@ -4,6 +4,7 @@ using MovieAppApi.Src.Core.Mappers.GetMovie;
 using MovieAppApi.Src.Core.Mappers.SearchMovies;
 using MovieAppApi.Src.Core.Services.Movie;
 using MovieAppApi.Src.Views.DTO.GetMovieRequest;
+using MovieAppApi.Src.Views.DTO.Movie;
 using MovieAppApi.Src.Views.DTO.SearchMovies;
 
 namespace MovieAppApi.Src.Controllers;
@@ -29,7 +30,7 @@ public class MoviesController : BaseController<MoviesController>
   }
 
   [HttpGet]
-  public async Task<IActionResult> SearchMoviesAsync(
+  public async Task<ActionResult<SearchMoviesResponseDto>> SearchMoviesAsync(
     [FromQuery] SearchMoviesRequestQueryDto queryDto)
   {
     var queryModel = _searchMoviesRequestQueryMapper.ToModel(queryDto);
@@ -40,7 +41,7 @@ public class MoviesController : BaseController<MoviesController>
   }
 
   [HttpGet("{movieId}")]
-  public async Task<IActionResult> GetMovieAsync(int movieId, [FromQuery] GetMovieRequestQueryDto queryDto)
+  public async Task<ActionResult<MovieDto>> GetMovieAsync(int movieId, [FromQuery] GetMovieRequestQueryDto queryDto)
   {
     try
     {
@@ -59,5 +60,4 @@ public class MoviesController : BaseController<MoviesController>
       throw;
     }
   }
-
 }

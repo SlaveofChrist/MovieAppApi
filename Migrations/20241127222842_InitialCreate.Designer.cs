@@ -11,7 +11,7 @@ using MovieAppApi.Src.Core.Repositories;
 namespace MovieAppApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241127142641_InitialCreate")]
+    [Migration("20241127222842_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,13 +28,6 @@ namespace MovieAppApi.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
-
-                    b.Property<string>("OriginalLanguage")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TmdbId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
@@ -53,14 +46,14 @@ namespace MovieAppApi.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("description")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
