@@ -1,4 +1,5 @@
 using MovieAppApi.Src.Core.Mappers.SearchMovies;
+using MovieAppApi.Src.Core.Middlewares;
 using MovieAppApi.Src.Core.Services.Environment;
 using MovieAppApi.Src.Core.Services.FetchMovies;
 using MovieAppApi.Src.Core.Services.FetchMovies.Tmdb;
@@ -29,7 +30,7 @@ public class Program
 
         var app = builder.Build();
 
-
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

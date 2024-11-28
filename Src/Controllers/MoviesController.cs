@@ -24,7 +24,7 @@ public class MoviesController : BaseController<MoviesController>
   }
 
   [HttpGet]
-  public async Task<IActionResult> SearchMoviesAsync([FromQuery] SearchMoviesRequestQueryDto queryDto)
+  public async Task<ActionResult<SearchMoviesResponseDto>> SearchMoviesAsync([FromQuery] SearchMoviesRequestQueryDto queryDto)
   {
     var queryModel = _searchMoviesRequestQueryMapper.ToModel(queryDto);
 
