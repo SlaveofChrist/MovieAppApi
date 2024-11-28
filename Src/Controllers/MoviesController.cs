@@ -8,13 +8,18 @@ namespace MovieAppApi.Src.Controllers;
 public class MoviesController : BaseController<MoviesController>
 {
   private readonly ISearchMoviesRequestQueryMapper _searchMoviesRequestQueryMapper;
+
+  private readonly ISearchMoviesResponseMapper _searchMoviesResponseMapper;
+
   private readonly IMovieService _movieService;
 
   public MoviesController(ILogger<MoviesController> logger,
-   ISearchMoviesRequestQueryMapper searchMoviesRequestQueryMapper,
-   IMovieService movieService) : base(logger)
+    ISearchMoviesRequestQueryMapper searchMoviesRequestQueryMapper,
+    ISearchMoviesResponseMapper searchMoviesResponseMapper,
+    IMovieService movieService) : base(logger)
   {
     _searchMoviesRequestQueryMapper = searchMoviesRequestQueryMapper;
+    _searchMoviesResponseMapper = searchMoviesResponseMapper;
     _movieService = movieService;
   }
 
@@ -25,6 +30,8 @@ public class MoviesController : BaseController<MoviesController>
 
     var result = await _movieService.SearchMoviesAsync(queryModel);
 
-    return Ok(result);
+    var dto = _searchMoviesResponseMapper.ToDto(result);
+
+    return Ok(dto);
   }
 }

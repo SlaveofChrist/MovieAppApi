@@ -4,5 +4,5 @@ namespace MovieAppApi.Src.Core.Services.FetchMovies;
 
 public interface IFetchMoviesService
 {
-  Task<SearchMoviesResultModel> SearchMoviesAsync(SearchMoviesRequestQueryModel query);
+  public Task<SearchMoviesResultModel> SearchMoviesAsync(SearchMoviesRequestQueryModel query);
 }

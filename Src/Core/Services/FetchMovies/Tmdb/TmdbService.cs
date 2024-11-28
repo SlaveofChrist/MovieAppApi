@@ -20,14 +20,17 @@ public class TmdbService : IFetchMoviesService
   {
     var url = $"{_baseUrl}/search/movie?api_key={_apiKey}&query={query.SearchTerm}&language={query.Language}";
     var response = await _httpClient.GetAsync(url);
-    response.EnsureSuccessStatusCode();
-
-    var content = await response.Content.ReadFromJsonAsync<TmdbSearchMoviesResultDto>();
-    if (content == null)
+    if (!response.IsSuccessStatusCode)
     {
-      throw new Exception("Tmdb API: /search/movie returned null");
+      throw new HttpRequestException("Tmdb search movies request failed");
     }
 
-    return content.ToModel();
+    var dto = await response.Content.ReadFromJsonAsync<TmdbSearchMoviesResultDto>();
+    if (dto == null)
+    {
+      throw new NullReferenceException("Tmdb search movies response is null");
+    }
+
+    return dto.ToModel();
   }
 }
