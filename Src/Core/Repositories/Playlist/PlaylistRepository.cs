@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MovieAppApi.Src.Core.Exceptions;
 using MovieAppApi.Src.Core.Repositories.Entities;
 using MovieAppApi.Src.Models.CreatePlaylist;
 using MovieAppApi.Src.Models.Playlist;
@@ -66,5 +67,25 @@ public class PlaylistRepository : IPlaylistRepository
     )).ToList();
 
     return playlistModels;
+  }
+
+  public async Task<PlaylistModel> GetPlaylistAsync(int playlistId)
+  {
+    var playlistEntity = await _appDbContext.Playlists
+      .Include(p => p.PlaylistJoinMovies)
+      .ThenInclude(p => p.Movie)
+      .FirstOrDefaultAsync(p => p.Id == playlistId);
+
+    if (playlistEntity == null)
+    {
+      throw new PlaylistNotFoundException(playlistId);
+    }
+
+    return new PlaylistModel(
+      id: playlistEntity.Id,
+      name: playlistEntity.Name,
+      description: playlistEntity.Description,
+      movieIds: playlistEntity.PlaylistJoinMovies.Select(p => p.MovieId).ToList()
+    );
   }
 }
