@@ -88,4 +88,61 @@ public class PlaylistRepository : IPlaylistRepository
       movieIds: playlistEntity.PlaylistJoinMovies.Select(p => p.MovieId).ToList()
     );
   }
+
+  public async Task<PlaylistModel> UpdatePlaylistAsync(int playlistId, PlaylistModel playlistModel)
+  {
+    var playlistEntityToUpdate = await _appDbContext.Playlists.Include(p => p.PlaylistJoinMovies).FirstOrDefaultAsync();
+    if (playlistEntityToUpdate == null)
+    {
+      throw new PlaylistNotFoundException(playlistId);
+    }
+
+    var obsoletePlaylistJoinMovies = new List<PlaylistJoinMovieEntity>(playlistEntityToUpdate.PlaylistJoinMovies);
+
+    // Add or update the join entities based on the new list of movie ids
+    foreach (var movieId in playlistModel.MovieIds)
+    {
+      var existingPlaylistJoinMovieEntity = await _appDbContext.PlaylistJoinMovies.FindAsync(playlistEntityToUpdate.Id, movieId);
+      // Update the existing join entity
+      if (existingPlaylistJoinMovieEntity != null)
+      {
+        existingPlaylistJoinMovieEntity.UpdatedAt = DateTime.UtcNow;
+        obsoletePlaylistJoinMovies.Remove(existingPlaylistJoinMovieEntity);
+        continue;
+      }
+
+      // Add a new join entity
+      _appDbContext.PlaylistJoinMovies.Add(new PlaylistJoinMovieEntity
+      {
+        PlaylistId = playlistEntityToUpdate.Id,
+        Movie = await _appDbContext.Movies.FindAsync(movieId) ?? new MovieEntity
+        {
+          Id = movieId,
+          CreatedAt = DateTime.UtcNow,
+          UpdatedAt = DateTime.UtcNow
+        },
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow
+      });
+    }
+
+    // Remove the join entities that are not in the new list of movie ids
+    _appDbContext.PlaylistJoinMovies.RemoveRange(obsoletePlaylistJoinMovies);
+
+    // Update the playlist entity
+    playlistEntityToUpdate.Name = playlistModel.Name;
+    playlistEntityToUpdate.Description = playlistModel.Description;
+    playlistEntityToUpdate.UpdatedAt = DateTime.UtcNow;
+
+    // Save the changes in DB
+    await _appDbContext.SaveChangesAsync();
+
+    return new PlaylistModel(
+      id: playlistEntityToUpdate.Id,
+      name: playlistEntityToUpdate.Name,
+      description: playlistEntityToUpdate.Description,
+      movieIds: playlistEntityToUpdate.PlaylistJoinMovies.Select(p => p.MovieId).ToList()
+    );
+  }
 }
+

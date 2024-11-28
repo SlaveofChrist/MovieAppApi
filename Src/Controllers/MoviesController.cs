@@ -3,7 +3,7 @@ using MovieAppApi.Src.Core.Exceptions;
 using MovieAppApi.Src.Core.Mappers.GetMovie;
 using MovieAppApi.Src.Core.Mappers.SearchMovies;
 using MovieAppApi.Src.Core.Services.Movie;
-using MovieAppApi.Src.Views.DTO.GetMovieRequest;
+using MovieAppApi.Src.Views.DTO.GetMovie;
 using MovieAppApi.Src.Views.DTO.Movie;
 using MovieAppApi.Src.Views.DTO.SearchMovies;
 

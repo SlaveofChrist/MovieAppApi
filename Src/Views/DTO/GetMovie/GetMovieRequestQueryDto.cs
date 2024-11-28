@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieAppApi.Src.Views.DTO.GetMovieRequest;
+namespace MovieAppApi.Src.Views.DTO.GetMovie;
 
 public class GetMovieRequestQueryDto
 {
