@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MovieAppApi.Src.Core.Repositories.Playlist;
 using MovieAppApi.Src.Core.Services.Playlist;
 using MovieAppApi.Src.Core.Mappers.CreatePlaylist;
+using MovieAppApi.Src.Core.Mappers.GetPlaylists;
 
 namespace MovieAppApi;
 
@@ -27,15 +28,17 @@ public class Program
 
         builder.Services.AddTransient<HttpClient>();
 
-        builder.Services.AddScoped<IFetchMoviesService, TmdbService>();
 
         builder.Services.AddScoped<ISearchMoviesRequestQueryMapper, SearchMoviesRequestQueryMapper>();
         builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
         builder.Services.AddScoped<IGetMovieResponseMapper, GetMovieResponseMapper>();
-        builder.Services.AddScoped<IMovieService, MovieService>();
-
         builder.Services.AddScoped<ICreatePlaylistRequestBodyMapper, CreatePlaylistRequestBodyMapper>();
         builder.Services.AddScoped<ICreatePlaylistResponseMapper, CreatePlaylistResponseMapper>();
+        builder.Services.AddScoped<IGetPlaylistsResponseMapper, GetPlaylistsResponseMapper>();
+
+        builder.Services.AddScoped<IFetchMoviesService, TmdbService>();
+        builder.Services.AddScoped<IMovieService, MovieService>();
+
         builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
         builder.Services.AddScoped<IPlaylistService, PlaylistService>();
 

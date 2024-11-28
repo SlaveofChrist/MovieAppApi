@@ -8,8 +8,7 @@ public class CreatePlaylistRequestBodyDto
   [Required(AllowEmptyStrings = false)]
   public required string name { get; init; }
 
-  [Required(AllowEmptyStrings = false)]
-  public required string description { get; init; }
+  public string? description { get; init; }
 
   [Required, MinLength(1), PositiveIntList]
   public required List<int> movie_ids { get; init; }
