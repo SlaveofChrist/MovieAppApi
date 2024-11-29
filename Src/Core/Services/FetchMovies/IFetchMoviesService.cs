@@ -1,3 +1,4 @@
+using MovieAppApi.Src.Models.Movie;
 using MovieAppApi.Src.Models.SearchMovies;
 
 namespace MovieAppApi.Src.Core.Services.FetchMovies;
@@ -5,4 +6,5 @@ namespace MovieAppApi.Src.Core.Services.FetchMovies;
 public interface IFetchMoviesService
 {
   public Task<SearchMoviesResultModel> SearchMoviesAsync(SearchMoviesRequestQueryModel query);
+  public Task<MovieModel> GetMovieByIdAsync(int movieId, string language);
 }

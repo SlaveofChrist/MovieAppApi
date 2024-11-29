@@ -1,3 +1,4 @@
+using MovieAppApi.Src.Core.Mappers.GetMovie;
 using MovieAppApi.Src.Core.Mappers.SearchMovies;
 using MovieAppApi.Src.Core.Middlewares;
 using MovieAppApi.Src.Core.Services.Environment;
@@ -22,6 +23,7 @@ public class Program
         builder.Services.AddScoped<IMovieService, MovieService>();
         builder.Services.AddScoped<IFetchMoviesService, TmdbService>();
         builder.Services.AddScoped<ISearchMoviesResponseMapper, SearchMoviesResponseMapper>();
+        builder.Services.AddScoped<IGetMovieByIdResponseMapper, GetMovieByIdResponseMapper>();
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

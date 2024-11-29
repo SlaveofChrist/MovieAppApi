@@ -7,3 +7,4 @@ public interface ISearchMoviesRequestQueryMapper
 {
   public SearchMoviesRequestQueryModel ToModel(SearchMoviesRequestQueryDto dto);
 }
+ 
